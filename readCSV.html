@@ -176,10 +176,16 @@ function lineGraphData(data) {
 	  			x[diseases[disease]] = element["_"+years[year]+"_"+diseases[disease]];
 	  			dict[years[year]] = x;
 	  		}
-	  		
 	  	}
 	  }
 	});
+	for(year in years) {
+		total = 0
+	  	for (disease in diseases)  {
+	  		total += dict[years[year]][diseases[disease]]
+	  	}
+	  	dict[years[year]]["total"] = total;
+	  }
 	return dict;
 }
 
