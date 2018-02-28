@@ -216,5 +216,40 @@ function mapGraphData(data){
 }
 </script>
 
+<style>
+
+	.axis--x path {
+	  display: none;
+	}
+
+	.line {
+	  fill: none;
+	  stroke: steelblue;
+	  stroke-width: 1.5px;
+	}
+
+</style>
+<svg width="960" height="500" id = "svgTimeSeries"></svg>
+
+<script id = "drawTimeSeries">
+
+var svg = d3.select("#drawTimeSeries"),
+	margin = {top: 20, right: 80, bottom: 30, left: 50},
+    width = svg.attr("width") - margin.left - margin.right,
+    height = svg.attr("height") - margin.top - margin.bottom,
+    g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")"); 
+
+var scaleX = d3.scaleLinear().range([0,width]);
+var scaleY = d3.scaleLinear().range([height, 0]);
+
+var line1 = d3.line()
+	.x(function (d) {return scaleX(d.year)})
+	.y(function (d) {return scaleY(d.cancer)});
+
+scaleX.domain(d3.extent(mapGraphData, function(data) {return data.years}));
+scaleY.domain([0, d3.max(mapGraphData, function(data) {
+	return Math.max(d.cancer, d.ardiovascular, d.stroke, d.depression, d.rehab, d.vaccine, d.diarrhea, d.obesity, d.diabetes)})]);
+</script>
+
 </html>
 
