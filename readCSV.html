@@ -6,7 +6,7 @@
 
 <script>
 
-d3.csv("RegionalInterestByConditionOverTime.csv", function(d){
+var readData = d3.csv("RegionalInterestByConditionOverTime.csv", function(d){
 	return {
 		city: d.dma,
 		state: d.dma.substr(d.dma.length - 2),
