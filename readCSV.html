@@ -6,7 +6,7 @@
 
 <script>
 
-var readData = d3.csv("RegionalInterestByConditionOverTime.csv", function(d){
+var readData = d3.csv("RegionalInterestByConditionOverTime.csv", function(d) {
 	return {
 		city: d.dma,
 		state: d.dma.substr(d.dma.length - 2),
@@ -139,9 +139,12 @@ var readData = d3.csv("RegionalInterestByConditionOverTime.csv", function(d){
 		_2017_diabetes: +d["2017+diabetes"]
 	};
 }, function(data) {
-	console.log(data);
+	read(data);
 });
 
+function read (data) {
+	console.log(data);
+}
 </script>
 
 </html>
