@@ -231,7 +231,7 @@ function abbrState(input, to){
         ['California', 'CA'],
         ['Colorado', 'CO'],
         ['Connecticut', 'CT'],
-        ['Delaware', 'DE'],
+        ['Delaware', 'D)'],
         ['Florida', 'FL'],
         ['Georgia', 'GA'],
         ['Hawaii', 'HI'],
@@ -342,7 +342,17 @@ var pathGenerator = d3.geoPath().projection(projection);
 var rawData;
 var states;
 
+var colors = {"stroke": "red", "cancer": "blue", "diabetes": "yellow", "rehab": "green"};
+
+
 d3.json("us-states.json", function (data) {
+
+	for (var i =  0; i < data.features.length; i++) {
+  	var ab = abbrState(data.features[i].properties.name, "abbr");
+  	if (mapGraphDict[ab]) {
+  		data.features[i].properties.disease = mapGraphDict[ab];
+  	}
+  }
    svgMap.selectAll("path")
   .data(data.features)
   .enter()
@@ -350,8 +360,15 @@ d3.json("us-states.json", function (data) {
   .attr("d", pathGenerator)
   .style("stroke", "#fff")
   .style("stroke-width", "1")
-  .style("fill", "rgb(213, 222, 217)");
- 
+  .style("fill", function(d) {
+  	var value = d.properties.disease;
+
+  	if (colors[value]) {
+  		return colors[value];
+  	} else {
+  		return "rgb(213, 222, 217)";
+  	}
+  });
 });
 
 
