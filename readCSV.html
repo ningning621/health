@@ -313,7 +313,66 @@ function abbrState(input, to){
 </style>
 <p><svg width="960" height="500" id = "usMap"></svg></p>
 <svg width="960" height="500" id = "svgTimeSeries"></svg>
+<script>
+function drawLineGraph(lineData) {
 
+	var margin = {top: 20, right: 20, bottom: 30, left: 50},
+    width = 960 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+
+
+	var svg = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  	.append("g")
+    .attr("transform",
+          "translate(" + margin.left + "," + margin.top + ")");
+
+	var scaleX = d3.scaleLinear().range([0,width]);
+	var scaleY = d3.scaleLinear().range([height, 0]);
+
+	/*for (var key in lineData) {
+		if (!lineData.hasOwnProperty(key)) continue;
+
+		var obj = lineData[key];
+		for (var prop in obj) {
+			if (!obj.hasOwnProperty(prop)) continue;
+			console.log(prop + " = " obj[prop]);
+		}
+	}*/
+
+	for (var year in lineData) {
+		data = [];
+		for (var disease in lineData[year]) {
+			//console.log(lineData[year]);
+			data.push = [year, lineData[year][disease]];
+		}
+		console.log(data);
+	}
+	console.log(Object.keys(lineData));
+	var line1 = d3.line()
+		.x(function (d) {return scaleX(Object.keys(lineData).map(Number))})
+		.y(function (d) {return scaleY(Object.keys(lineData).cancer)});
+
+	scaleX.domain([2004,2017]);
+	scaleY.domain([0, 16343]);
+	svg.append("path")
+		.data([lineData])
+		.attr("class", "line")
+		.attr("stroke", "red")
+		.attr("d", line1);
+
+	svg.append("g")
+      .attr("transform", "translate(0," + height + ")")
+      .call(d3.axisBottom(scaleX));
+
+    svg.append("g")
+      .call(d3.axisLeft(scaleY));
+
+
+
+}
+</script>
 <script id = "drawTimeSeries">
 
 var svg = d3.select("#drawTimeSeries"),
