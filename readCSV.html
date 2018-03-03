@@ -1,8 +1,60 @@
 <html>
 
 <title>Read CSV</title>
+<head>
+<link href="//fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type = "text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet" type = "text/css">
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script src="http://d3js.org/topojson.v2.min.js"></script>
+</head>
+
+<style>
+#sidebar {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    width: 20%;
+    background-color: lightgrey;
+    float: left;
+    z-index: 1;
+}
+#legend {
+	position: bottom;
+}
+
+#description h1 {
+
+	 font-family: 'Raleway', Helvetica, Arial, sans-serif;
+	 font-size: 40px;
+	 line-height: 50px;
+	 padding: 10px 10px 10px 10px;
+
+}
+#legend p {
+	 font-family: 'PT Sans', Helvetica, Arial, sans-serif;
+	 font-size: 25px;
+	 line-height: 25px;
+	 
+}
+</style>
+
+<div id="sidebar">
+
+	<div id = "description">
+		<h1>Health Searches in United States</h1>
+	</div>
+
+	<div id = "legend">
+		<ul>
+	      <p>stroke: #b2ef9b<p>
+	      <p>cancer: #fff189</p>
+	      <p>diabetes: #c6c6c6</p>
+	      <p>rehab: #ffae9c</p>
+	    </ul>
+	</div>
+
+</div>
 
 <script>
 var readData = d3.csv("RegionalInterestByConditionOverTime.csv", function(d) {
@@ -307,7 +359,11 @@ function abbrState(input, to){
 	  stroke: steelblue;
 	  stroke-width: 1.5px;
 	}
-	svg { border: solid #ccc 1px; }
+	svg { 
+		border: solid #ccc 1px;
+		width: 80%; 
+		float: right;
+		position: relative;}
 
 </style>
 <p><svg width="960" height="500" id = "usMap"></svg></p>
