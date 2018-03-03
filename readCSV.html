@@ -198,9 +198,9 @@ diseases = ["cancer", "cardiovascular", "stroke", "depression", "rehab", "vaccin
 years = [2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017]
 
 function genGraphs (data) {
-	//console.log(data);
 	lineGraphDict = lineGraphData(data);
 	mapGraphDict = mapGraphData(data);
+	drawLineGraph(lineGraphDict);
 
 }
 
@@ -217,7 +217,7 @@ function addToDict (dict, disease, count, year) {
 
 } 
 function lineGraphData(data) {
-	var dict = { }; // {year, {disease, count}}
+	var dict = { }; // {disease, {year, count}}
 	data.forEach(function(element) {
 	   for(year in years) {
 	  	for (disease in diseases)  {
@@ -377,7 +377,7 @@ function drawLineGraph(lineData) {
     height = 500 - margin.top - margin.bottom;
 
 
-	var svg = d3.select("body").append("svg")
+	var svg = d3.select("#svgTimeSeries").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
   	.append("g")
@@ -387,36 +387,10 @@ function drawLineGraph(lineData) {
 	var scaleX = d3.scaleLinear().range([0,width]);
 	var scaleY = d3.scaleLinear().range([height, 0]);
 
-	/*for (var key in lineData) {
-		if (!lineData.hasOwnProperty(key)) continue;
 
-		var obj = lineData[key];
-		for (var prop in obj) {
-			if (!obj.hasOwnProperty(prop)) continue;
-			console.log(prop + " = " obj[prop]);
-		}
-	}*/
-
-	for (var year in lineData) {
-		data = [];
-		for (var disease in lineData[year]) {
-			//console.log(lineData[year]);
-			data.push = [year, lineData[year][disease]];
-		}
-		console.log(data);
-	}
-	console.log(Object.keys(lineData));
-	var line1 = d3.line()
-		.x(function (d) {return scaleX(Object.keys(lineData).map(Number))})
-		.y(function (d) {return scaleY(Object.keys(lineData).cancer)});
 
 	scaleX.domain([2004,2017]);
-	scaleY.domain([0, 16343]);
-	svg.append("path")
-		.data([lineData])
-		.attr("class", "line")
-		.attr("stroke", "red")
-		.attr("d", line1);
+	scaleY.domain([0, .15]);
 
 	svg.append("g")
       .attr("transform", "translate(0," + height + ")")
@@ -425,9 +399,32 @@ function drawLineGraph(lineData) {
     svg.append("g")
       .call(d3.axisLeft(scaleY));
 
+    var lineFunction = d3.line()
+	                     .x(function(d) { return scaleX(d[0]); })
+	                     .y(function(d) { return scaleY(d[1]); })
+	                     .curve(d3.curveMonotoneX);
+
+	const sumValues = (obj) => Object.keys(obj).reduce((acc, value) => acc + obj[value], 0);
+	for (var disease in diseases) {
+		data = [];
+		for (var year in lineData) {
+			data.push([year, lineData[year][diseases[disease]] / sumValues(lineData[year])]);
+		}
+	
+		 svg.append("path")
+	        .attr("d", lineFunction(data))
+	        .attr("stroke", "blue")
+	        .attr("stroke-width", 2)
+	        .attr("fill", "none")
+	        .style("stroke-opacity",.25)
+	        .attr("stroke-width", 5);
+	    }
+	
+
 
 
 }
+
 </script>
 <script id = "drawTimeSeries">
 
