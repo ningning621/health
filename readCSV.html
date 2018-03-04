@@ -2,6 +2,8 @@
 
 <title>Read CSV</title>
 <head>
+<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 <link href="//fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type = "text/css">
 <link href="//fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet" type = "text/css">
 <script src="https://d3js.org/d3.v4.min.js"></script>
@@ -15,7 +17,7 @@
     left: 0px;
     bottom: 0px;
     width: 20%;
-    background-color: lightgrey;
+    background-color: #c6c6c6;
     float: left;
     z-index: 1;
 }
@@ -25,18 +27,43 @@
 
 #description h1 {
 
-	 font-family: 'Raleway', Helvetica, Arial, sans-serif;
-	 font-size: 40px;
-	 line-height: 50px;
-	 padding: 10px 10px 10px 10px;
+	 font-family: 'Ubuntu', Helvetica, Arial, sans-serif;
+	 font-size: 25px;
+	 line-height: 40px;
+	 padding: 10px 10px 10px 20px;
 
 }
 #legend p {
-	 font-family: 'PT Sans', Helvetica, Arial, sans-serif;
-	 font-size: 25px;
+	 font-family: 'Lato', Helvetica, Arial, sans-serif;
+	 font-size: 20px;
 	 line-height: 25px;
-	 
 }
+
+#subtitle {
+	font-family: 'Ubuntu', sans-serif;
+	font-size: 20px;
+	padding-left: 100px;
+	width: 70%;
+	float: right;
+	}
+
+#subsub {
+	font-family: 'Lato', sans-serif;
+	font-size: 15px;
+	padding-left: 100px;
+	width: 70%;
+	float: right;
+}
+
+hr {
+	height: 2px;
+	fill: #c6c6c6;
+	border: 0;
+	width: 20%;
+	float: left;
+	border-top: 2px solid #c6c6c6;
+}
+
 </style>
 
 <div id="sidebar">
@@ -55,7 +82,6 @@
 	</div>
 
 </div>
-<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
 
 <script>
 var readData = d3.csv("RegionalInterestByConditionOverTime.csv", function(d) {
@@ -195,6 +221,7 @@ genGraphs(data);
 });
 
 diseases = ["cancer", "cardiovascular", "stroke", "depression", "rehab", "vaccine", "diarrhea", "obesity", "diabetes"];
+colorList = ["#fff189", "#6ab0de", "#b2ef9b", "#c895fc", "#ffae9c", "#fffe81", "#48ffa5", "#b3f8ff", "#c6c6c6"];
 years = [2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017]
 
 function genGraphs (data) {
@@ -214,8 +241,8 @@ function addToDict (dict, disease, count, year) {
 	}
 	dict[year] = tmp;
 	return dict;
-
 } 
+
 function lineGraphData(data) {
 	var dict = { }; // {disease, {year, count}}
 	data.forEach(function(element) {
@@ -350,34 +377,28 @@ function abbrState(input, to){
 </script>
 
 <style>
-
 	.axis--x path {
 	  display: none;
 	}
 
-	.line {
-	  fill: none;
-	  stroke: steelblue;
-	  stroke-width: 1.5px;
-	}
-<<<<<<< HEAD
-=======
 	svg { 
-		border: solid #ccc 1px;
 		width: 80%; 
 		float: right;
-		position: relative;}
->>>>>>> 27f70ac0ee2fb390a23cf5446f3af53de9928b02
-
+		position: relative;
+	}
+}
 </style>
-<p id = "titleMap" style="font-family: Ubuntu; font-size: 25">Most Frequently Searched </br>Health Terms by State</p>
-
+<div id="subtitle" style="padding-top: 30px">Most Frequent Health <br/>Searches By State</div>
+<div id="subtitle"><hr/></div>
+<div id="subsub">* state1, state2, and state3 have no data and are thus greyed out</div>
 <svg width="960" height="500" id = "usMap"></svg>
+<div id="subtitle" style="padding-top: 30px">Health Search <br/>Terms Over Time</div>
+<div id="subtitle"><hr/></div>
 <svg width="960" height="500" id = "svgTimeSeries"></svg>
 <script>
 function drawLineGraph(lineData) {
 
-	var margin = {top: 20, right: 20, bottom: 30, left: 50},
+	var margin = {top: 20, right: 20, bottom: 30, left: 170},
     width = 960 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
@@ -391,8 +412,6 @@ function drawLineGraph(lineData) {
 
 	var scaleX = d3.scaleLinear().range([0,width]);
 	var scaleY = d3.scaleLinear().range([height, 0]);
-
-
 
 	scaleX.domain([2004,2017]);
 	scaleY.domain([0, .15]);
@@ -418,15 +437,19 @@ function drawLineGraph(lineData) {
 	
 		 svg.append("path")
 	        .attr("d", lineFunction(data))
-	        .attr("stroke", "blue")
-	        .attr("stroke-width", 2)
-	        .attr("fill", "none")
-	        .style("stroke-opacity",.25)
-	        .attr("stroke-width", 5);
+	        .attr("stroke", function () {
+
+	        		console.log(disease);
+  					console.log(colorList[disease]);
+  				if (colorList[disease]) {
+			  		return colorList[disease];
+			  	} else {
+			  		return "blue";
+  				}
+	        })
+	        .attr("stroke-width", 3)
+	        .attr("fill", "none");
 	    }
-	
-
-
 
 }
 
