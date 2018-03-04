@@ -42,7 +42,7 @@
 
 #subsub {
 	font-family: 'Lato', sans-serif;
-	font-size: 15px;
+	font-size: 12px;
 	padding-left: 100px;
 	width: 70%;
 	float: right;
@@ -408,7 +408,7 @@ function abbrState(input, to){
 </style>
 <div id="subtitle" style="padding-top: 30px">Most Frequent Health <br/>Searches By State</div>
 <div id="subtitle"><hr/></div>
-<div id="subsub">* state1, state2, and state3 have no data and are thus greyed out</div>
+<div id="subsub">*No available data for Vermont, Rhode Island, and New Jersey</div>
 <svg width="960" height="500" id = "usMap"></svg>
 <div id="subtitle" style="padding-top: 30px">Health Search <br/>Terms Over Time</div>
 <div id="subtitle"><hr/></div>
@@ -465,6 +465,18 @@ function drawLineGraph(lineData) {
 	        .attr("stroke-width", 3)
 	        .attr("fill", "none");
 	    }
+
+	svg.append("text")
+		.attr("text-anchor", "middle")
+		.attr("transform", "translate(" + -50 + "," + (height/2) + ")rotate(-90)")
+		.attr("font-family", "'Ubuntu', sans-serif")
+		.text("Percentage of Annual Search Term Frequency");
+
+	svg.append("text")
+		.attr("text-anchor", "middle")
+		.attr("transform", "translate("+ (width/2) +","+(height + 30) + ")")
+		.attr("font-family", "'Ubuntu', sans-serif")
+		.text("Year");
 
 }
 
