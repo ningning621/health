@@ -308,10 +308,11 @@ function abbrState(input, to){
 	  stroke: steelblue;
 	  stroke-width: 1.5px;
 	}
-	svg { border: solid #ccc 1px; }
 
 </style>
-<p><svg width="960" height="500" id = "usMap"></svg></p>
+<p id = "titleMap" style="font-family: Ubuntu; font-size: 25">Most Frequently Searched </br>Health Terms by State</p>
+
+<svg width="960" height="500" id = "usMap"></svg>
 <svg width="960" height="500" id = "svgTimeSeries"></svg>
 <script>
 function drawLineGraph(lineData) {
@@ -396,10 +397,6 @@ var line1 = d3.line()
 <script id="drawUSMap">
 	
 var svgMap = d3.select("#usMap");
-svgMap.append("text")
-.style("font-family", "Ubuntu")
-.style("font-size", "15")
-.text("Most Frequently Searched Health Terms by State");
 var projection = d3.geoAlbersUsa().scale(900);
 var pathGenerator = d3.geoPath().projection(projection);
 
@@ -407,7 +404,6 @@ var rawData;
 var states;
 
 var colors = {"stroke": "#b2ef9b", "cancer": "#fff189", "diabetes": "#c6c6c6", "rehab": "#ffae9c"};
-
 
 d3.json("us-states.json", function (data) {
 
