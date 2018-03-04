@@ -404,6 +404,12 @@ function abbrState(input, to){
 		float: right;
 		position: relative;
 	}
+
+	.grid line {
+	  stroke: lightgrey;
+	  stroke-opacity: 0.7;
+	  shape-rendering: crispEdges;
+	}
 }
 </style>
 <div id="subtitle" style="padding-top: 30px">Most Frequent Health <br/>Searches By State</div>
@@ -466,6 +472,20 @@ function drawLineGraph(lineData) {
 	        .attr("fill", "none");
 	    }
 
+	function drawXGridlines() {		
+    return d3.axisBottom(scaleX)
+        .ticks(10)
+	}
+
+	svg.append("g")			
+      .attr("class", "grid")
+      .attr("transform", "translate(0," + height + ")")
+      .call(drawXGridlines()
+          .tickSize(-height)
+          .tickFormat("")
+      );
+
+
 	svg.append("text")
 		.attr("text-anchor", "middle")
 		.attr("transform", "translate(" + -50 + "," + (height/2) + ")rotate(-90)")
@@ -524,18 +544,18 @@ d3.json("us-states.json", function (data) {
   .data(data.features)
   .enter()
   .append("path")
-  .attr("d", pathGenerator)
-  .style("stroke", "#fff")
-  .style("stroke-width", "1")
-  .style("fill", function(d) {
-  	var value = d.properties.disease;
+	  .attr("d", pathGenerator)
+	  .style("stroke", "#fff")
+	  .style("stroke-width", "1")
+	  .style("fill", function(d) {
+	  	var value = d.properties.disease;
 
-  	if (colors[value]) {
-  		return colors[value];
-  	} else {
-  		return "rgb(240, 240, 240)";
-  	}
-  });
+	  	if (colors[value]) {
+	  		return colors[value];
+	  	} else {
+	  		return "rgb(240, 240, 240)";
+	  	}
+	  });
 });
 </script>
 </html>
