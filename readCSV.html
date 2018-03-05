@@ -473,7 +473,23 @@ function drawLineGraph(lineData) {
 		data = [];
 		for (var year in lineData) {
 			data.push([year, lineData[year][diseases[disease]] / sumValues(lineData[year])]);
+			if (year == 2004) {
+				svg.append("circle")
+				   .attr("cx", scaleX(year))
+				   .attr("cy", scaleY(lineData[year][diseases[disease]] / sumValues(lineData[year]) ))
+				   .attr("r", 5)
+				   .style("fill", colorList[diseases[disease]]);
+			}
+			if (year == 2017) {
+				svg.append("circle")
+				   .attr("cx", scaleX(year))
+				   .attr("cy", scaleY(lineData[year][diseases[disease]] / sumValues(lineData[year]) ))
+				   .attr("r", 5)
+				   .style("fill", colorList[diseases[disease]]);
+			}
 		}
+
+
 	
 		 svg.append("path")
 	        .attr("d", lineFunction(data))
