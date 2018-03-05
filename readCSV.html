@@ -69,7 +69,7 @@ hr {
 		<svg id="circles"></svg>
 		<script>
 			var diseases = ["cancer", "cardiovascular", "stroke", "depression", "rehab", "vaccine", "diarrhea", "obesity", "diabetes"];
-			var colorList = {"cancer": "red", "cardiovascular": "magenta", "stroke": "yellow", "depression": "lime", "rehab": "green", "vaccine": "cyan", "diarrhea": "blue",      "obesity": "purple", "diabetes": "orange"};
+			var colorList = {"cancer": "#fff189", "cardiovascular": "#6ab0de", "stroke": "#b2ef9b", "depression": "#c895fc", "rehab": "#ffae9c", "vaccine": "#fffe81", "diarrhea": "#5bffad", "obesity": "#adffef", "diabetes": "#c6c6c6"};
 
 			var svg = d3.select("#circles")
 			.attr("height", 230)
@@ -525,7 +525,7 @@ var pathGenerator = d3.geoPath().projection(projection);
 var rawData;
 var states;
 
-var colors = {"stroke": "yellow", "cancer": "red", "diabetes": "orange", "rehab": "green"};
+var colors = {"stroke": "#b2ef9b", "cancer": "#fff189", "diabetes": "#c6c6c6", "rehab": "#ffae9c"};
 
 d3.json("us-states.json", function (data) {
 
