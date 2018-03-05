@@ -42,7 +42,7 @@
 
 #subsub {
 	font-family: 'Lato', sans-serif;
-	font-size: 12px;
+	font-size: 14px;
 	padding-left: 100px;
 	width: 70%;
 	float: right;
@@ -69,7 +69,7 @@ hr {
 		<svg id="circles"></svg>
 		<script>
 			var diseases = ["cancer", "cardiovascular", "stroke", "depression", "rehab", "vaccine", "diarrhea", "obesity", "diabetes"];
-			var colorList = {"cancer": "#fff189", "cardiovascular": "#6ab0de", "stroke": "#b2ef9b", "depression": "#c895fc", "rehab": "#ffae9c", "vaccine": "#fffe81", "diarrhea": "#5bffad", "obesity": "#adffef", "diabetes": "#c6c6c6"};
+			var colorList = {"cancer": "#fff189", "cardiovascular": "#6ab0de", "stroke": "#b2ef9b", "depression": "#c895fc", "rehab": "#ffae9c", "vaccine": "#fffe81", "diarrhea": "#5bffad", "obesity": "#c6c6c6", "diabetes": "#a8e3d8"};
 
 			var svg = d3.select("#circles")
 			.attr("height", 230)
@@ -409,11 +409,15 @@ function abbrState(input, to){
 	  stroke-opacity: 0.7;
 	  shape-rendering: crispEdges;
 	}
+
+	#svgTimeSeries svg {
+		padding-bottom: 30;
+	}
 }
 </style>
 <div id="subtitle" style="padding-top: 30px">Most Frequent Health <br/>Searches By State</div>
 <div id="subtitle"><hr/></div>
-<div id="subsub">*Sufficent data not available data for Vermont, Rhode Island, and New Jersey</div>
+<div id="subsub">*Sufficent data not available for Vermont, Rhode Island, and New Jersey</div>
 <svg width="960" height="500" id = "usMap"></svg>
 <div id="subtitle" style="padding-top: 30px">Health Search <br/>Terms Over Time</div>
 <div id="subtitle"><hr/></div>
@@ -502,7 +506,7 @@ var svg = d3.select("#drawTimeSeries"),
 	margin = {top: 20, right: 80, bottom: 30, left: 50},
     width = svg.attr("width") - margin.left - margin.right,
     height = svg.attr("height") - margin.top - margin.bottom,
-    g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")"); 
+    g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 var scaleX = d3.scaleLinear().range([0,width]);
 var scaleY = d3.scaleLinear().range([height, 0]);
@@ -525,8 +529,7 @@ var pathGenerator = d3.geoPath().projection(projection);
 var rawData;
 var states;
 
-var colors = {"stroke": "#b2ef9b", "cancer": "#fff189", "diabetes": "#c6c6c6", "rehab": "#ffae9c"};
-
+var colors = {"stroke": "#b2ef9b", "cancer": "#fff189", "diabetes": "#a8e3d8", "rehab": "#ffae9c"};
 d3.json("us-states.json", function (data) {
 
 	for (var i =  0; i < data.features.length; i++) {
