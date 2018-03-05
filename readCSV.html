@@ -1,4 +1,4 @@
-<html>
+ <html>
 
 <title>Read CSV</title>
 <head>
@@ -69,7 +69,7 @@ hr {
 		<svg id="circles"></svg>
 		<script>
 			var diseases = ["cancer", "cardiovascular", "stroke", "depression", "rehab", "vaccine", "diarrhea", "obesity", "diabetes"];
-			var colorList = {"cancer": "#fff189", "cardiovascular": "#6ab0de", "stroke": "#b2ef9b", "depression": "#c895fc", "rehab": "#ffae9c", "vaccine": "#fffe81", "diarrhea": "#5bffad",      "obesity": "#adffef", "diabetes": "#c6c6c6"};
+			var colorList = {"cancer": "red", "cardiovascular": "magenta", "stroke": "yellow", "depression": "lime", "rehab": "green", "vaccine": "cyan", "diarrhea": "blue",      "obesity": "purple", "diabetes": "orange"};
 
 			var svg = d3.select("#circles")
 			.attr("height", 230)
@@ -240,7 +240,6 @@ genGraphs(data);
 });
 
 var diseases = ["cancer", "cardiovascular", "stroke", "depression", "rehab", "vaccine", "diarrhea", "obesity", "diabetes"];
-var colorList = ["#fff189", "#6ab0de", "#b2ef9b", "#c895fc", "#ffae9c", "#fffe81", "#5bffad", "#adffef", "#c6c6c6"];
 var years = [2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017]
 
 function genGraphs (data) {
@@ -414,7 +413,7 @@ function abbrState(input, to){
 </style>
 <div id="subtitle" style="padding-top: 30px">Most Frequent Health <br/>Searches By State</div>
 <div id="subtitle"><hr/></div>
-<div id="subsub">*No available data for Vermont, Rhode Island, and New Jersey</div>
+<div id="subsub">*Sufficent data not available data for Vermont, Rhode Island, and New Jersey</div>
 <svg width="960" height="500" id = "usMap"></svg>
 <div id="subtitle" style="padding-top: 30px">Health Search <br/>Terms Over Time</div>
 <div id="subtitle"><hr/></div>
@@ -462,11 +461,7 @@ function drawLineGraph(lineData) {
 		 svg.append("path")
 	        .attr("d", lineFunction(data))
 	        .attr("stroke", function () {
-  				if (colorList[disease]) {
-			  		return colorList[disease];
-			  	} else {
-			  		return "blue";
-  				}
+			  	return colorList[diseases[disease]];
 	        })
 	        .attr("stroke-width", 3)
 	        .attr("fill", "none");
@@ -530,7 +525,7 @@ var pathGenerator = d3.geoPath().projection(projection);
 var rawData;
 var states;
 
-var colors = {"stroke": "#b2ef9b", "cancer": "#fff189", "diabetes": "#c6c6c6", "rehab": "#ffae9c"};
+var colors = {"stroke": "yellow", "cancer": "red", "diabetes": "orange", "rehab": "green"};
 
 d3.json("us-states.json", function (data) {
 
