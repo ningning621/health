@@ -12,7 +12,7 @@
 
 <style>
 #sidebar {
-    position: fixed;
+    position: relative;
     top: 0px;
     left: 0px;
     bottom: 0px;
@@ -115,6 +115,18 @@ h2 {
 
 </div>
 
+<script id = "repeatLegend">
+function multiplyNode(node, count, deep) {
+    for (var i = 0, copy; i < count - 1; i++) {
+        copy = node.cloneNode(deep);
+        node.parentNode.insertBefore(copy, node);
+    }
+
+}
+
+multiplyNode(document.querySelector('#legend'), 2, true);
+
+</script>
 <script>
 var readData = d3.csv("RegionalInterestByConditionOverTime.csv", function(d) {
 return {
@@ -466,7 +478,7 @@ function drawLineGraph(lineData) {
     var lineFunction = d3.line()
 	                     .x(function(d) { return scaleX(d[0]); })
 	                     .y(function(d) { return scaleY(d[1]); })
-	                     .curve(d3.curveMonotoneX);
+	                     .curve(d3.curveLinear);
 
 	const sumValues = (obj) => Object.keys(obj).reduce((acc, value) => acc + obj[value], 0);
 	for (var disease in diseases) {
@@ -585,5 +597,6 @@ d3.json("us-states.json", function (data) {
 	  });
 });
 </script>
+
 </html>
 
