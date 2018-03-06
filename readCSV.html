@@ -317,7 +317,7 @@ function getMax(dict) {
 	for (key in dict) {
 		var max;
 		obj = dict[key];
-		max = Object.keys(obj).reduce((a, b) => obj[a] > obj[b] ? a : b);
+		max = Object.keys(obj).reduce((a, b) => obj[a] > obj[b] ? a : b); //from StackOverflow
 		result[key] = max;
 	}
 	return result;
@@ -325,7 +325,7 @@ function getMax(dict) {
 
 function heatMapData(data) {
 	var dict = { }; // {state, {disease, count}}
-	data.forEach(function(element) {
+	data.forEach(function(element) { //from StackOverflow
 	   for(year in years) {
 	  	for (disease in diseases)  {
 	  		if (element.state in dict) {
@@ -339,7 +339,23 @@ function heatMapData(data) {
 	  	}
 	  }
 	});
-	return dict;
+	cancerMax = -1;
+	cancerMin = 100000000000000000;
+	for (state in dict) {
+		if (dict[state]["cancer"] < cancerMin) {
+			cancerMin = dict[state]["cancer"]
+		} 
+		if (dict[state]["cancer"] > cancerMax) {
+			cancerMax = dict[state]["cancer"]
+		}
+	}
+	var scale = d3.scaleLinear().range([.1,1]).domain([cancerMin, cancerMax]);
+	result = { };
+	for (state in dict) {
+		result[state] = scale(dict[state]["cancer"]);
+	}
+
+	return result;
 }
 
 function mapGraphData(data){
@@ -490,7 +506,7 @@ function drawLineGraph(lineData) {
 
 	svg.append("g")
       .attr("transform", "translate(0," + height + ")")
-      .call(d3.axisBottom(scaleX).tickFormat(d3.format("d")));
+      .call(d3.axisBottom(scaleX).tickFormat(d3.format("d"))); //from StackOverflow
 
     svg.append("g")
       .call(d3.axisLeft(scaleY));
@@ -498,9 +514,11 @@ function drawLineGraph(lineData) {
     var lineFunction = d3.line()
 	                     .x(function(d) { return scaleX(d[0]); })
 	                     .y(function(d) { return scaleY(d[1]); })
-	                     .curve(d3.curveLinear);
+	                     .curve(d3.curveLinear); //from StackOverflow
 
-	const sumValues = (obj) => Object.keys(obj).reduce((acc, value) => acc + obj[value], 0);
+
+
+	const sumValues = (obj) => Object.keys(obj).reduce((acc, value) => acc + obj[value], 0); //From StackOverflow
 	for (var disease in diseases) {
 		data = [];
 		if (diseases[disease] == "cardiovascular" || diseases[disease] == "diarrhea") 
