@@ -80,43 +80,51 @@ h2 {
 
 	<div id = "legend">
 		<svg id="circles"></svg>
+		<svg id="circles2"></svg>
 		<script>
 			var diseases = ["cancer", "cardiovascular", "stroke", "depression", "rehab", "vaccine", "diarrhea", "obesity", "diabetes"];
 			var colorList = {"cancer": "#fff189", "cardiovascular": "#6ab0de", "stroke": "#b2ef9b", "depression": "#c895fc", "rehab": "#ffae9c", "vaccine": "#fffe81", "diarrhea": "#5bffad", "obesity": "#c6c6c6", "diabetes": "#a8e3d8"};
 
-			var svg = d3.select("#circles")
-			.attr("height", 230)
-			.style("padding-top", 10);
-			svg.selectAll("g")
-			.data(diseases)
-			.enter()
-			.each(function (d, i) {
-				var g = d3.select(this);
-				g.append("circle")
-				.attr("cx", 15)
-				.attr("cy", i*25 + 10)
-				.attr("r", 7)
-				.style("fill", function(d) {
-					return colorList[d];
+			var firstLegendKeys = ["cancer","stroke","rehab","diabetes"];
+
+			function drawLegend(keys, legend, padding){
+				var svg = d3.select(legend)
+				//.attr("height", 230)
+				.style("padding-top", padding);
+				svg.selectAll("g")
+				.data(diseases)
+				.enter()
+				.each(function (d, i) {
+					if (i in keys ){
+						var g = d3.select(this);
+						g.append("circle")
+						.attr("cx", 15)
+						.attr("cy", i*25 + 10)
+						.attr("r", 7)
+						.style("fill", function(d) {
+							return colorList[d];
+						});
+						g.append("text")
+						.attr("x", 40)
+						.attr("y", i*25 + 15)
+						.text(function(i) {
+							console.log(i);
+							return i;
+						})
+						.style("font-family", "Lato")
+						.style("font-size", "13");}
 				});
-				g.append("text")
-				.attr("x", 40)
-				.attr("y", i*25 + 15)
-				.text(function(i) {
-					console.log(i);
-					return i;
-				})
-				.style("font-family", "Lato")
-				.style("font-size", "13");
-			});
-			
+			};
+
+		var firstLegend = drawLegend(firstLegendKeys, "#circles", 10);
 		</script>
 	</div>
 
+	<script>var secondLegend = drawLegend(diseases, "#circles2", 550);</script>
 </div>
 
 <script id = "repeatLegend">
-function multiplyNode(node, count, deep) {
+/*function multiplyNode(node, count, deep) {
     for (var i = 0, copy; i < count - 1; i++) {
         copy = node.cloneNode(deep);
         node.parentNode.insertBefore(copy, node);
@@ -124,9 +132,19 @@ function multiplyNode(node, count, deep) {
 
 }
 
-multiplyNode(document.querySelector('#legend'), 2, true);
+multiplyNode(document.querySelector('#legend'), 2, true);*/
+
+
+
+/*var legend = document.getElementById("legend");
+var secondLegend = legend.cloneNode(true);
+
+document.getElementById("sidebar").appendChild(secondLegend)
+	.style("padding", "100");*/
 
 </script>
+
+
 <script>
 var readData = d3.csv("RegionalInterestByConditionOverTime.csv", function(d) {
 return {
