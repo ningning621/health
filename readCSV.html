@@ -1,6 +1,6 @@
  <html>
 
-<title>Read CSV</title>
+<title>Health Term Searches</title>
 <head>
 <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
@@ -110,7 +110,6 @@ h2 {
 						.attr("x", 40)
 						.attr("y", i*25 + 15)
 						.text(function(i) {
-							console.log(i);
 							return i;
 						})
 						.style("font-family", "Lato")
@@ -124,28 +123,6 @@ h2 {
 
 	<script>var secondLegend = drawLegend(secondLegendKeys, "#circles2", 425);</script>
 </div>
-
-<script id = "repeatLegend">
-/*function multiplyNode(node, count, deep) {
-    for (var i = 0, copy; i < count - 1; i++) {
-        copy = node.cloneNode(deep);
-        node.parentNode.insertBefore(copy, node);
-    }
-
-}
-
-multiplyNode(document.querySelector('#legend'), 2, true);*/
-
-
-
-/*var legend = document.getElementById("legend");
-var secondLegend = legend.cloneNode(true);
-
-document.getElementById("sidebar").appendChild(secondLegend)
-	.style("padding", "100");*/
-
-</script>
-
 
 <script>
 var readData = d3.csv("RegionalInterestByConditionOverTime.csv", function(d) {
@@ -291,9 +268,6 @@ function genGraphs (data) {
 	lineGraphDict = lineGraphData(data);
 	mapGraphDict = mapGraphData(data);
 	heatGraphDict = heatMapData(data, "cancer");
-	diabetesDict = heatMapData(data, "diabetes");
-	rehabDict = heatMapData(data, "rehab");
-	strokeDict = heatMapData(data, "stroke");
 	drawLineGraph(lineGraphDict);
 }
 
@@ -309,6 +283,7 @@ function addToDict (dict, disease, count, year) {
 	return dict;
 } 
 
+//creates line graph for the different diseases
 function lineGraphData(data) {
 	var dict = { }; // {disease, {year, count}}
 	data.forEach(function(element) {
@@ -335,6 +310,7 @@ function lineGraphData(data) {
 	return dict;
 }
 
+//get max value from dictionary
 function getMax(dict) {
 	var result = {};
 	for (key in dict) {
@@ -346,6 +322,7 @@ function getMax(dict) {
 	return result;
 }
 
+//generates choropleth data for cancer
 function heatMapData(data, x) {
 	var dict = { }; // {state, {disease, count}}
 	data.forEach(function(element) { //from StackOverflow
@@ -381,6 +358,7 @@ function heatMapData(data, x) {
 	return result;
 }
 
+//organizes data for each state by disease and count
 function mapGraphData(data){
 	var dict = { }; // {state, {disease, count}}
 	data.forEach(function(element) {
@@ -401,8 +379,8 @@ function mapGraphData(data){
 	return result;
 }
 
+//converts state name to abbreviation and vice versa (inspired by StackOverflow)
 function abbrState(input, to){
-    
     var states = [
         ['Arizona', 'AZ'],
         ['Alabama', 'AL'],
@@ -471,7 +449,6 @@ function abbrState(input, to){
         }    
     }
 }
-
 </script>
 
 <style>
@@ -506,6 +483,7 @@ function abbrState(input, to){
 <div id="subtitle"><hr/></div>
 <svg width="960" height="500" id = "svgTimeSeries"></svg>
 <script>
+
 function drawLineGraph(lineData) {
 
 	var margin = {top: 20, right: 20, bottom: 30, left: 170},
@@ -603,8 +581,9 @@ function drawLineGraph(lineData) {
 }
 
 </script>
-<script id = "drawTimeSeries">
 
+<!--displays line graph-->
+<script id = "drawTimeSeries">
 var svg = d3.select("#drawTimeSeries"),
 	margin = {top: 20, right: 80, bottom: 30, left: 50},
     width = svg.attr("width") - margin.left - margin.right,
@@ -617,14 +596,10 @@ var scaleY = d3.scaleLinear().range([height, 0]);
 var line1 = d3.line()
 	.x(function (d) {return scaleX(d.year)})
 	.y(function (d) {return scaleY(d.cancer)});
-
-//scaleX.domain(d3.extent(mapGraphData, function(data) {return data.years}));
-//scaleY.domain([0, d3.max(mapGraphData, function(data) {
-	//return Math.max(d.cancer, d.ardiovascular, d.stroke, d.depression, d.rehab, d.vaccine, d.diarrhea, d.obesity, d.diabetes)})]);
 </script>
 
+<!--displays map of most frequently searched terms-->
 <script id="drawUSMap">
-	
 var svgMap = d3.select("#usMap");
 var projection = d3.geoAlbersUsa().scale(900);
 var pathGenerator = d3.geoPath().projection(projection);
@@ -660,8 +635,8 @@ d3.json("us-states.json", function (data) {
 });
 </script>
 
+<!--displays choropleth map of cancer frequency-->
 <script id="cancerMap">
-	
 var cancerMap = d3.select("#cancerMap");
 var projection = d3.geoAlbersUsa().scale(900);
 var pathGenerator = d3.geoPath().projection(projection);
