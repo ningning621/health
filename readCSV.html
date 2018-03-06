@@ -339,7 +339,23 @@ function heatMapData(data) {
 	  	}
 	  }
 	});
-	return dict;
+	cancerMax = -1;
+	cancerMin = 100000000000000000;
+	for (state in dict) {
+		if (dict[state]["cancer"] < cancerMin) {
+			cancerMin = dict[state]["cancer"]
+		} 
+		if (dict[state]["cancer"] > cancerMax) {
+			cancerMax = dict[state]["cancer"]
+		}
+	}
+	var scale = d3.scaleLinear().range([.1,1]).domain([cancerMin, cancerMax]);
+	result = { };
+	for (state in dict) {
+		result[state] = scale(dict[state]["cancer"]);
+	}
+
+	return result;
 }
 
 function mapGraphData(data){
