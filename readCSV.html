@@ -483,6 +483,8 @@ function drawLineGraph(lineData) {
 	const sumValues = (obj) => Object.keys(obj).reduce((acc, value) => acc + obj[value], 0);
 	for (var disease in diseases) {
 		data = [];
+		if (diseases[disease] == "cardiovascular") 
+			continue;
 		for (var year in lineData) {
 			data.push([year, lineData[year][diseases[disease]] / sumValues(lineData[year])]);
 			if (year == 2004) {
