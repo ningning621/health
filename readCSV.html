@@ -291,6 +291,9 @@ function genGraphs (data) {
 	lineGraphDict = lineGraphData(data);
 	mapGraphDict = mapGraphData(data);
 	heatGraphDict = heatMapData(data, "cancer");
+	diabetesDict = heatMapData(data, "diabetes");
+	rehabDict = heatMapData(data, "rehab");
+	strokeDict = heatMapData(data, "stroke");
 	drawLineGraph(lineGraphDict);
 }
 
@@ -498,7 +501,7 @@ function abbrState(input, to){
 <div id="subsub">*Insufficient data for Vermont, Rhode Island, and New Jersey</div>
 <svg width="960" height="500" id = "usMap"></svg>
 <div id="subtitle" style="padding-top: 30px">Heat Map of Cancer Related Searches<br/>By State, 2004 to 2017</div>
-<svg width="960" height="500" id = "heatMap"></svg>
+<svg width="960" height="500" id = "cancerMap"></svg>
 <div id="subtitle" style="padding-top: 30px">Health Search <br/>Terms Over Time</div>
 <div id="subtitle"><hr/></div>
 <svg width="960" height="500" id = "svgTimeSeries"></svg>
@@ -657,9 +660,9 @@ d3.json("us-states.json", function (data) {
 });
 </script>
 
-<script id="heatMap">
+<script id="cancerMap">
 	
-var heatMap = d3.select("#heatMap");
+var cancerMap = d3.select("#cancerMap");
 var projection = d3.geoAlbersUsa().scale(900);
 var pathGenerator = d3.geoPath().projection(projection);
 
@@ -675,7 +678,7 @@ d3.json("us-states.json", function (data) {
   		data.features[i].properties.heat = heatGraphDict[abb];
   	}
   }
-   heatMap.selectAll("path")
+   cancerMap.selectAll("path")
   .data(data.features)
   .enter()
   .append("path")
