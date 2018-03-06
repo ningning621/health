@@ -270,6 +270,7 @@ var years = [2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2
 function genGraphs (data) {
 	lineGraphDict = lineGraphData(data);
 	mapGraphDict = mapGraphData(data);
+	heatGraphDict = heatMapData(data);
 	drawLineGraph(lineGraphDict);
 }
 
@@ -320,6 +321,25 @@ function getMax(dict) {
 		result[key] = max;
 	}
 	return result;
+}
+
+function heatMapData(data) {
+	var dict = { }; // {state, {disease, count}}
+	data.forEach(function(element) {
+	   for(year in years) {
+	  	for (disease in diseases)  {
+	  		if (element.state in dict) {
+	  			dict = addToDict(dict, diseases[disease], element["_"+years[year]+"_"+diseases[disease]], element.state);
+	  		}
+	  		else {
+	  			var x = {};
+	  			x[diseases[disease]] = element["_"+years[year]+"_"+diseases[disease]];
+	  			dict[element.state] = x;
+	  		}
+	  	}
+	  }
+	});
+	return dict;
 }
 
 function mapGraphData(data){
